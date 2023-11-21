@@ -1,0 +1,16 @@
+#adm{
+    transition: color 0.3s;
+    display: inline-block;
+}
+#botao {
+    cursor: pointer;
+    background-color: #2e5156;
+    transition: background-color 0.2s;
+    border: 1px solid #2e5156; /* Adiciona uma borda de 1 pixel, cor #2e5156 */
+    color: #fff; /* Adiciona uma cor ao texto para contrastar com a cor de fundo */
+}
+
+#botao:hover {
+    background-color: #fafafa;
+    color: #2e5156;
+}

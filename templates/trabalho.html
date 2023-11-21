@@ -1,0 +1,72 @@
+{% extends 'modelo.html' %}
+{% block conteudo %}  
+      <!-------------- Main ------------------->
+    <div class="container">
+    <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="static/img/1.gif" class="d-block w-100">
+          </div>
+          <div class="carousel-item">
+            <img src="static/img/2.gif" class="d-block w-100">
+          </div>
+          <div class="carousel-item">
+            <img src="static/img/3.gif" class="d-block w-100">
+          </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+        <hr style="background-color: #3b666c; height: 3px; opacity: 1; border: 0">
+        <section style="background-color: #fff; display: flex; justify-content: center; padding-top: 2%;">
+            <div style="width: 60%; padding: 10px; background-color: #fff; color: #48302A;">
+                <h2 style="text-align: center;">Venha ser parte da empresa!</h2>
+                <p>Na You Tech, não apenas abraçamos a tecnologia; a moldamos, desafiamos seus limites e definimos o futuro. Se você é um entusiasta da tecnologia, anseia por desafios que façam seu coração bater mais rápido e deseja ser parte de uma equipe que está redefinindo o jogo, então você está no lugar certo!</p>
+            </div>
+            <div class="direito">
+                <figure id="img1">
+                    <img src="static/img/pessoas.png" style="border-radius: 5px;"  width="270">
+                </figure>
+            </div>
+        </section>
+        <hr style="background-color: #3b666c; height: 3px; opacity: 1; border: 0">
+        <div class="container mb-5">
+            <h2 style="text-align: center; color: #48302A;"> Vagas disponíveis </h2>
+        <div>
+           
+        {% if not vagas%}
+        <h1 class="display-5 text-center" style="color:black;">Novas oportunidades estão sendo preparadas para você...</h1>
+        <h2 class="display-4 text-center text-success">Retorne em breve.</h1>
+    
+        {% else %}
+        <div class="container mt-3">
+            <div class="row g-3">
+                {% for vaga in vagas %}
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-x1-2">
+                    <div class="card text-center bg-light">
+                        <img src="../static/img/vagas/{{ vaga['img_vagas'] }}" class="card-img-top" />
+                        <div class="card-header fs-3 text-danger"> {{ vaga['cargo_vagas'] }}</div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ vaga['salario_vagas'] }}</h5>
+                            <p class="card-text truncar-31">{{ vaga['local_vagas'] }}</p>
+                            
+                              <a href="/vervagas/{{ vaga['id_vagas'] }}">
+                                <button id="botao" type="button" class="btn btn-primary btn-raised mt-2">
+                                  VER OPORTUNIDADE
+                              </button>
+                            </a>
+                          
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}   
+        {% endblock %}
