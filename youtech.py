@@ -61,9 +61,7 @@ def busca():
     conexao = conecta_database()
     vagas = conexao.execute('SELECT * FROM vagas WHERE cargo_vagas LIKE "%" || ? ||  "%"',(busca,)).fetchall() 
     title="Trabalhe conosco"
-    return render_template("home.html", vagas =vagas, title=title)
-
-
+    return render_template("trabalho.html", vagas =vagas, title=title)
 
 # ROTA DA PÁGINA ACESSO
 @app.route("/acesso", methods=['post'])
@@ -118,21 +116,19 @@ def cadastro():
         local_vagas = request.form ['local_vagas']
         email_vagas = request.form ['email_vagas']
         img_vagas = request.files.get('img_vagas')  # Use get para evitar erros se a chave 'img_prod' não estiver presente
-
         if img_vagas:  # Se foi enviada uma imagem
             id_foto = str(uuid.uuid4().hex)
             filename = (id_foto + cargo_vagas + '.png')
-            img_vagas.save(os.path.join("static/img/", filename))
+            img_vagas.save(os.path.join("static/img/vagas/", filename))
         else:  # Caso contrário, use uma imagem padrão
             filename = 'imagem_padrao.png'  # Substitua 'imagem_padrao.png' pelo nome do seu arquivo de imagem padrão
-
         conexao = conecta_database()
         conexao.execute('INSERT INTO vagas (cargo_vagas, requisitos_vagas, salario_vagas, local_vagas, email_vagas, img_vagas) VALUES (?, ?, ?, ?, ?, ?)', (cargo_vagas, requisitos_vagas, salario_vagas, local_vagas, email_vagas, filename))
         conexao.commit()
         conexao.close()
         return redirect("/adm")
     else:
-        return redirect("/login")
+        return redirect("/trabalho")
 #ROTA DE EXCLUSÃO
 @app.route("/excluir/<id_vagas>")
 def excluir(id_vagas):
@@ -150,7 +146,7 @@ def editar(id_vagas):
         conexao = conecta_database()
         vagas =conexao.execute('SELECT * FROM vagas WHERE id_vagas = ?',(id_vagas,)).fetchall()
         conexao.close()
-        title = "Edição de produtos"
+        title = "Edição de vagas"
         return render_template("editar.html", vagas=vagas, title=title)
     else:
         return redirect("/login")
@@ -162,14 +158,17 @@ def editvagas():
     cargo_vagas=request.form['cargo_vagas']
     requisitos_vagas=request.form['requisitos_vagas']
     salario_vagas=request.form['salario_vagas']
-    img_vagas=request.files ['img_vagas']
-    id_foto=str(uuid.uuid4().hex)
-    filename=id_foto+cargo_vagas+'.png'
-    img_vagas.save("static/img/vagas/"+filename)
+    local_vagas=request.form['local_vagas']
+    email_vagas=request.form['email_vagas']
+    nome_imagem = request.form['nome_imagem']
+    img_vagas=request.files['img_vagas']
     conexao = conecta_database()
-    conexao.execute( 'UPDATE vagas SET  = ?,  cargo_vagas = ?, preco_prod = ?, img_prod = ? WHERE id_prod = ?', (nome_prod, desc_prod, preco_prod, filename,id_prod))
+    conexao.execute( 'UPDATE vagas SET cargo_vagas = ?,  requisitos_vagas = ?, salario_vagas = ?, local_vagas = ?, email_vagas = ?, img_vagas = ? WHERE id_vagas= ?', (cargo_vagas, requisitos_vagas, salario_vagas, local_vagas, email_vagas, nome_imagem, id_vagas))
     conexao.commit()
     conexao.close()
+    if img_vagas:  # Se foi enviada uma imagem
+        img_vagas.save(os.path.join("static/img/vagas/", nome_imagem))
+    
     return redirect('/adm')
     
 #CRIAR A ROTA PARA VER AS VAGAS

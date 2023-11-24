@@ -42,7 +42,7 @@
            
         {% if not vagas%}
         <h1 class="display-5 text-center" style="color:black;">Novas oportunidades estão sendo preparadas para você...</h1>
-        <h2 class="display-4 text-center text-success">Retorne em breve.</h1>
+        <h2 class="display-4 text-center" style="color: #2e5156;">Retorne em breve.</h1>
     
         {% else %}
         <div class="container mt-3">
@@ -50,12 +50,13 @@
                 {% for vaga in vagas %}
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-x1-2">
                     <div class="card text-center bg-light">
-                        <img src="../static/img/vagas/{{ vaga['img_vagas'] }}" class="card-img-top" />
-                        <div class="card-header fs-3 text-danger"> {{ vaga['cargo_vagas'] }}</div>
+                        <img src="../static/img/vagas/{{ vaga['img_vagas'] }}" class="card-img-top img-hover" />
+                        <div class="card-header fs-4 d-flex align-items-center justify-content-center" style="color: #2e5156; height: 90px;" >
+                          {{ vaga['cargo_vagas'] }}
+                        </div>
                         <div class="card-body">
                             <h5 class="card-title">{{ vaga['salario_vagas'] }}</h5>
-                            <p class="card-text truncar-31">{{ vaga['local_vagas'] }}</p>
-                            
+                            <p class="card-text">{{ vaga['local_vagas'] }}</p>
                               <a href="/vervagas/{{ vaga['id_vagas'] }}">
                                 <button id="botao" type="button" class="btn btn-primary btn-raised mt-2">
                                   VER OPORTUNIDADE
